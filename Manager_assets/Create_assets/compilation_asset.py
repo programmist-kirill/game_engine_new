@@ -6,7 +6,6 @@ from termcolor import colored
 
 class compilation_asset:
     def determing_x_coordinate(first_value):
-
         if first_value >= 1 and first_value <= 10:
             string_index = 1
             index_action = 0
@@ -16,212 +15,150 @@ class compilation_asset:
                     index_action += 1
                     continue
 
-                else:
-                    if index_action == 0:
-                        count_x = 0
-                    else:
-                        count_x = string_index
-                    
-                    return count_x
-    
-
-        elif first_value != 11:
-            string_index = 0 
-            while string_index != first_value:
-                string_index += 1
-
-            count_x = string_index
-            return count_x
-
-        if first_value >= 11 and first_value <= 20:
+            else:
+                return string_index
+            
+        elif first_value >= 11 and first_value <= 20:
             string_index = 11
-
-        elif first_value != 21:
-            string_index = 0
+            index_action = 0
             while string_index != first_value:
-                string_index += 1
-
-            count_x = string_index
-            return count_x
-
-        elif first_value != 31:
-            string_index = 0
-            while string_index != first_value:
-                string_index += 1
+                if string_index != first_value:
+                    string_index += 1
+                    index_action += 1
+                    continue
+            else:
+                return string_index
             
-            count_x = string_index
-            return count_x
-        
-        elif first_value != 41:
-            string_index = 0
+        elif first_value >= 21 and first_value <= 30:
+            string_index = 21
+            index_action = 0
             while string_index != first_value:
-                string_index += 1
+                if string_index != first_value:
+                    string_index += 1
+                    index_action += 1
+                    continue
+            else:
+                return string_index
         
-            count_x = string_index
-            return count_x
-        
-        elif first_value != 51:
-            string_index = 0
+        elif first_value >= 31 and first_value <= 40:
+            string_index = 31
+            index_action = 0
             while string_index != first_value:
-                string_index += 1
+                if string_index != first_value:
+                    string_index += 1
+                    index_action += 1
+                    continue
+            else:
+                return string_index
+        
+        elif first_value >= 41 and first_value <= 50:
+            string_index = 41
+            index_action = 0
+            while string_index != first_value:
+                if string_index != first_value:
+                    string_index += 1
+                    index_action += 1
+                    continue
+            else:
+                return string_index
             
-            count_x = string_index
-            return count_x
-        
-        elif first_value != 61:
-            string_index = 0
+        elif first_value >= 51 and first_value <= 60:
+            string_index = 51
+            index_action = 0
             while string_index != first_value:
-                string_index += 1
+                if string_index != first_value:
+                    string_index += 1
+                    index_action += 1
+                    continue
+            else:
+                return string_index
+        
+        elif first_value >= 61 and first_value <= 70:
+            string_index = 61
+            index_action = 0
+            while string_index != first_value:
+                if string_index != first_value:
+                    string_index += 1
+                    index_action += 1
+                    continue
+            else:
+                return string_index
             
-            count_x = string_index
-            return count_x
-
-        elif first_value != 71:
-            string_index = 0
+        elif first_value >= 71 and first_value <= 80:
+            string_index = 71
+            index_action = 0
             while string_index != first_value:
-                string_index += 1
-
-            count_x = string_index
-            return count_x
-        
-        elif first_value != 81:
-            string_index = 0
-            while string_index != first_value:
-                string_index += 1
+                if string_index != first_value:
+                    string_index += 1
+                    index_action += 1
+                    continue
+            else:
+                return string_index
             
-            count_x = string_index
-            return count_x
-        
-        elif first_value != 91:
-            string_index = 0
+        elif first_value >= 81 and first_value <= 90:
+            string_index = 81
+            index_action = 0
             while string_index != first_value:
-                string_index += 1
+                if string_index != first_value:
+                    string_index += 1
+                    index_action += 1
+                    continue
+            else:
+                return string_index
+        
+        elif first_value >= 91 and first_value <= 100:
+            string_index = 91
+            index_action = 0
+            while string_index != first_value:
+                if string_index != first_value:
+                    string_index += 1
+                    index_action += 1
+                    continue
+            else:
+                return string_index
             
-            count_x = string_index
-            return count_x
-        
-        elif first_value != 101:
-            string_index = 0
+        elif first_value >= 101 and first_value <= 110:
+            string_index = 101
+            index_action = 0
             while string_index != first_value:
-                string_index += 1
-
-            count_x = string_index
-            return count_x
-        
-        elif first_value != 111:
-            string_index = 0
-            while string_index != first_value:
-                string_index += 1
+                if string_index != first_value:
+                    string_index += 1
+                    index_action += 1
+                    continue
+            else:
+                return string_index
             
-            count_x = string_index
-            return count_x
-        
-        elif first_value != 121:
-            string_index = 0
+        elif first_value >= 111 and first_value <= 120:
+            string_index = 111
+            index_action = 0
             while string_index != first_value:
-                string_index += 1
+                if string_index != first_value:
+                    string_index += 1
+                    index_action += 1
+                    continue
+            else:
+                return string_index
             
-            count_x = string_index
-            return count_x
-        
-        elif first_value != 131:
-            string_index = 0
+        elif first_value >= 121 and first_value <= 130:
+            string_index = 121
+            index_action = 0
             while string_index != first_value:
-                string_index += 1
+                if string_index != first_value:
+                    string_index += 1
+                    index_action += 1
+                    continue
+            else:
+                return string_index
             
-            count_x = string_index
-            return count_x
-        
-        elif first_value != 141:
-            string_index = 0
-            while string_index != first_value:
-                string_index += 1
-
-            count_x = string_index
-            return count_x
-        
-        elif first_value != 151:
-            string_index = 0
-            while string_index != first_value:
-                string_index += 1
-
-            count_x = string_index
-            return count_x
-        
-        elif first_value != 161:
-            string_index = 0 
-            while string_index != first_value:
-                string_index += 1
-
-            count_x = string_index
-            return count_x
-        
-        elif first_value != 171:
-            string_index = 0
-            while string_index != first_value:
-                string_index += 1
+        elif first_value >= 131 and first_value <= 140:
+            string_index = 131
             
-            count_x = string_index
-            return count_x
     
-        elif first_value != 181:
-            string_index = 0
-            while string_index != first_value:
-                string_index += 1
-
-            count_x = string_index
-            return count_x
-        
-        elif first_value != 191:
-            string_index = 0
-            while string_index != first_value:
-                string_index += 1
-
-            count_x = string_index
-            return count_x
-        
-        elif first_value != 201:
-            string_index = 0
-            while string_index != first_value:
-                string_index += 1
-            
-            count_x = string_index
-            return count_x
-        
-        elif first_value != 211:
-            string_index = 0
-            while string_index != first_value:
-                string_index += 1
-
-            count_x = string_index
-            return count_x
-        
-        elif first_value != 221:
-            string_index = 0 
-            while string_index != first_value:
-                string_index += 1
-
-            count_x = string_index
-            return count_x
-        
-        elif first_value != 231:
-            string_index = 0
-            while string_index != first_value:
-                string_index += 1
-
-            count_x = string_index
-            return count_x
-        
-        elif first_value != 241:
-            string_index = 0
 
 
     def launch_the_required_function(first_value):
-        if first_value >= 1 and first_value <= 10:
-            count_x = compilation_asset.null_index_column(first_value)
-            print(count_x`)
 
-        elif first_value >= 11 and first_value <= 20:
+        if first_value >= 11 and first_value <= 20:
             count_x = compilation_asset.one_index_column(first_value)
 
         elif first_value >= 21 and first_value <= 30:
