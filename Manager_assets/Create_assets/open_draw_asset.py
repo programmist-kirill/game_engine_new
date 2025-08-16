@@ -1,0 +1,3 @@
+import draw_asset_by_index
+
+draw_asset_by_index.getting_indexes()

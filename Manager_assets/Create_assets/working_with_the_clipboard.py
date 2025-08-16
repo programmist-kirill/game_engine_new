@@ -1,9 +1,8 @@
-import pyperclip
+import os
 
-def copy_to_clipboard(text):
-    """Копирует текст в буфер обмена"""
-    pyperclip.copy(text)
+def copy(text):
+    os.system("wl-copy " + text)
 
-def paste_from_clipboard():
-    """Вставляет текст из буфера обмена"""
-    return pyperclip.paste()
+def paste():
+    text = os.system("wl-paste")
+    return text

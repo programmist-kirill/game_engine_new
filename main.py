@@ -6,7 +6,6 @@ import platform
 
 
 class Init:
-    
     def check_StartLog_in_linux():
         if os.path.exists("/temp/start_log"):
             print("Init = True")
@@ -38,7 +37,7 @@ class Init:
 
 
 class Defining_the_module_to_run:
-    
+
     def main():
         print("1 - Запустить менеджер ассетов")
         print("2 - Запустить редактор мира (для создания или модернизации игры)")

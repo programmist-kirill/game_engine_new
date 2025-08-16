@@ -1,6 +1,7 @@
 {
     "python.REPL.enableREPLSmartSend": false,
     "python.analysis.extraPaths": [
-        "./Manager_assets/Importing_asset"
+        "./Manager_assets/Importing_asset",
+        "./Manager_assets"
     ]
 }
