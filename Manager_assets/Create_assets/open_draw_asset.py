@@ -1,3 +1,4 @@
-import draw_asset_by_index
+import draw_asset_by_index_new
 
-draw_asset_by_index.getting_indexes()
+if __name__ == "__main__":
+    draw_asset_by_index_new.getting_indexes()

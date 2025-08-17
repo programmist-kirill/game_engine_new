@@ -10,15 +10,19 @@ class parse_dict:
                 'name': parts[1],
                 'directory': parts[2]
             }
+            result_dict = result_dict
             print(result_dict)
             return result_dict
         return None
 
     @staticmethod
     def check(input_string, index_for_search):
-        parts = input_string.split(' = ')
-        if parts and parts[0] == str(index_for_search):  # Сравниваем как строки, так как из файла читается строка
-            return parse_dict.main(input_string)
+        parts = input_string.strip().split(' = ')  # Добавляем strip() здесь
+        if parts and parts[0] == str(index_for_search):
+            result = parse_dict.main(input_string)
+            if result and 'directory' in result:
+                result['directory'] = result['directory'].strip('\n')  # Удаляем \n из пути
+            return result
         return None
 
 def getting_asset_by_index(index_for_search):

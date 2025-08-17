@@ -1,8 +1,8 @@
-import os
+import clipboard
 
 def copy(text):
-    os.system("wl-copy " + text)
+    clipboard.copy(text)
 
 def paste():
-    text = os.system("wl-paste")
-    return text
+    text = clipboard.paste()
+    return str(text)  # Преобразуем результат в строку

@@ -1,5 +1,6 @@
 import platform
 import os
+import sys
 import subprocess
 from tkinter import Tk, messagebox
 
@@ -31,7 +32,8 @@ def main():
         messagebox.showerror("Ошибка", "Не удаётся найти файл draw_asset_by_index.py")
 
     if os.path.exists(directory_to_markup_table):
-        subprocess.run(["xdg-open", directory_to_markup_table])
+        os.system("/home/kirill/venv/bin/python /home/kirill/game_engine_new/Manager_assets/Create_assets/markup_table.py")
+        #subprocess.run(["xdg-open", directory_to_markup_table])
         print("Команда выполнена, код возврата: 0")
     else:
         messagebox.showerror("Ошибка", "Не удаётся найти файл markup_table.py")

@@ -14,7 +14,9 @@ def Determining_what_to_do_with_assets():
 
     print("1 - Создание ассета")
     
+
     action = input("Что вы хотите сделать: ")
     if action == "1":
         directory = directory_to_engine + "dual_file_open.py"
+
         os.system("python " + directory)

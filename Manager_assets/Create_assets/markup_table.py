@@ -8,6 +8,4 @@ def print_hundred_table():
     
     
     input("\n\nчтобы выйти нажмите Enter")
-
-# Вызываем функцию
 print_hundred_table()
