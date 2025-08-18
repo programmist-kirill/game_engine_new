@@ -17,6 +17,6 @@ def Determining_what_to_do_with_assets():
 
     action = input("Что вы хотите сделать: ")
     if action == "1":
-        directory = directory_to_engine + "dual_file_open.py"
+        directory = directory_to_engine + "Manager_assets/Create_assets/" + "open_draw_asset.py"
 
         os.system("python " + directory)

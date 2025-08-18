@@ -1,20 +1,18 @@
-import os
-import sys
-
+import subprocess
 
 def copy(text):
     try:
-        os.system(f"wl-copy {text}")
-        print(f"text wl-copy = {text}")
+        # Преобразуем в строку и убираем переносы
+        text = str(text).replace('\n', ' ')
+        subprocess.run(['wl-copy'], input=text.encode('utf-8'), check=True)
+        print(f"Скопировано в буфер: {text}")
     except Exception as error:
-        print(f"Ошибка копирования в буфер: {error}")
+        print(f"Ошибка копирования: {error}")
 
 def paste():
     try:
-        string = os.system("wl-paste")
-        return string
+        result = subprocess.run(['wl-paste'], capture_output=True, text=True, check=True)
+        return result.stdout.strip()  # Убираем переносы строк
     except Exception as error:
-        print(f"Ошибка чтения из буфера: {error}")
-        input("\n\nДля выхода из программы нажмите Enter")
-        sys.exit()
-
+        print(f"Ошибка чтения буфера: {error}")
+        return ""

@@ -27,10 +27,10 @@ class obtaining_the_necessary_information:
             elif count_x == 7:
                 count_space = "       "
                 return count_space
-            elif count_space == 8:
+            elif count_x == 8:
                 count_space = "        "
                 return count_space
-            elif count_space == 9:
+            elif count_x == 9:
                 count_space = "         "
                 return count_space
         

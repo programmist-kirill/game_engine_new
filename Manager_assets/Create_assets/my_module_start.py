@@ -52,12 +52,19 @@ def write():
 
 def draw_asset(first_value, second_value, index):
     try:
-        # Получаем данные из compilation_asset (без изменений)
+        # Получаем координаты
         x_old = compilation_asset.obtaining_the_necessary_information.options(first_value)
         y_old = compilation_asset.obtaining_the_necessary_information.determing_y_coordinates(first_value)
-        x = compilation_asset.obtaining_the_necessary_information.definition_what_line_breaks.space(x_old)
-        y = compilation_asset.obtaining_the_necessary_information.definition_what_line_breaks.down(y_old)
         
+        # Получаем пробелы и переносы строк
+        x = str(compilation_asset.obtaining_the_necessary_information.definition_what_line_breaks.space(x_old))
+        y = str(compilation_asset.obtaining_the_necessary_information.definition_what_line_breaks.down(y_old))
+
+        #!
+        print(f"x_old: {x_old}, y_old: {y_old}")
+        print(f"x: '{x}', y: '{y}'")
+        print(f"file_asset: '{file_asset}'")
+        #!
 
         # Получаем информацию об ассете
         asset_info = importing_asset_for_engine.getting_asset_by_index(second_value)
@@ -65,42 +72,28 @@ def draw_asset(first_value, second_value, index):
             print("Ассет не найден!")
             return
 
-        # Очищаем путь от \n и проверяем существование файла
+        # Очищаем путь и проверяем файл
         asset_path = Path(asset_info['directory'].strip())
         if not asset_path.exists():
             print(f"Файл ассета не найден: {asset_path}")
             return
 
-        # Читаем содержимое файла ассета
-        with open(asset_path, "r") as file:
-            text_file_asset = file.read().strip('\n')
+        # Читаем содержимое файла
+        with open(asset_path, 'r') as f:
+            file_asset = f.read().strip()
 
-        print(f"asset_path = {asset_path}")
-        
-        result = ""
-        for char in text_file_asset:
-            if char != "\n":
-                result += char
-            
-        file_asset = result
-        print(file_asset)
-        
         # Формируем новый ассет
         if index == 0:
-            print(f"y = {y}")
-            
-            print(f"x = {x}")
-            print(f"file_asset = {file_asset}")
             new_asset = y + x + file_asset
         else:
             clipboard_content = working_with_the_clipboard.paste()
-            new_asset = clipboard_content + y + x + file_asset
+            new_asset = str(clipboard_content) + y + x + file_asset
+ 
 
-        # Копируем в буфер обмена
+        # Копируем в буфер
         working_with_the_clipboard.copy(new_asset)
         
     except Exception as e:
         print(f"Ошибка в draw_asset: {e}")
-
 # Инициализация при импорте
 initialize()

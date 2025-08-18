@@ -39,17 +39,26 @@ class Init:
 class Defining_the_module_to_run:
 
     def main():
+        system = platform.system()
+        if system == "Windows":
+            with open("C:/windows/directory_to_engine" , "r") as file:
+                directory_to_engine = file.read()
+        elif system == "Linux":
+            with open("/temp/directory_to_engine" , "r") as file:
+                directory_to_engine = file.read().strip()
+
         print("1 - Запустить менеджер ассетов")
         print("2 - Запустить редактор мира (для создания или модернизации игры)")
         
         action = input("Что вы хотите сделать: ")
         if action == "1":
-            sys.path.append("Manager_assets/")
+            sys.path.append(directory_to_engine + "Manager_assets")
+            print(directory_to_engine + "Manager_assets/")
             import main_editor_menu
             main_editor_menu.Determining_what_to_do_with_assets()
         
         elif action == "2":
-            sys.path.append("Game_world_editor/")
+            sys.path.append(directory_to_engine + "Game_world_editor/")
             import main
             #! запуск модуля
 

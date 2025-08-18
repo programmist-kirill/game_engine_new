@@ -3,6 +3,6 @@
     "python.analysis.extraPaths": [
         "./Manager_assets/Importing_asset",
         "./Manager_assets",
-	"./Manager_assets/Create_assets"
+        "./Manager_assets/Create_assets"
     ]
 }
