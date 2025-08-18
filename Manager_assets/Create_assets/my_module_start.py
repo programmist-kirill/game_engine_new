@@ -1,98 +1,106 @@
-import sys
-import platform
 import os
+import platform
+import sys
+from pathlib import Path
 
 import compilation_asset
 import working_with_the_clipboard
 
-# Перенесём импорт draw_asset_by_index в конец файла
-# чтобы избежать циклического импорта
+# Инициализация глобальных переменных
+directory_to_engine = None
+importing_asset_for_engine = None
+
+def initialize():
+    global directory_to_engine, importing_asset_for_engine
+    
+    system = platform.system()
+    cache_file = "/temp/directory_to_engine" if system == "Linux" else "C:/windows/directory_to_engine"
+    
+    try:
+        with open(cache_file, "r") as file:
+            directory_to_engine = Path(file.read().strip())
+    except FileNotFoundError:
+        print(f"Ошибка: файл {cache_file} не найден!")
+        sys.exit(1)
+
+    sys.path.append(str(directory_to_engine / "Manager_assets" / "Importing_asset"))
+    
+    try:
+        import importing_asset_for_engine
+    except ImportError as e:
+        print(f"Ошибка загрузки модуля: {e}")
+        sys.exit(1)
 
 def write():
-    name_asset = input("Введите название ассета - ")
+    name_asset = input("Введите название ассета: ").strip()
     asset = working_with_the_clipboard.paste()
     
-    # Преобразуем asset в строку, если это не строка
     if not isinstance(asset, str):
         asset = str(asset)
     
-    clean_directory = directory_to_engine.strip()
-    asset_dir = os.path.join(clean_directory, "Asset")
-    os.makedirs(asset_dir, exist_ok=True)
+    asset_dir = directory_to_engine / "Asset"
+    asset_dir.mkdir(exist_ok=True)
     
-    directory_for_write = os.path.join(asset_dir, f"{name_asset}.asset")
+    asset_file = asset_dir / f"{name_asset}.asset"
     
     try:
-        with open(directory_for_write, "w") as fp:
-            fp.write(asset)  # Теперь asset точно строка
-        
-        importing_asset_for_engine.add_asset(name_asset, directory_asset=directory_for_write)
-        print(f"Ассет успешно сохранён: {directory_for_write}")
+        asset_file.write_text(asset)
+        importing_asset_for_engine.add_asset(name_asset, str(asset_file))
+        print(f"Ассет успешно сохранён: {asset_file}")
     except Exception as e:
-        print(f"Ошибка при сохранении ассета: {e}")
+        print(f"Ошибка при сохранении: {e}")
 
 def draw_asset(first_value, second_value, index):
     try:
-        if index == 0:
-            x_old = compilation_asset.obtaining_the_necessary_information.options(first_value)
-            y_old = compilation_asset.obtaining_the_necessary_information.determing_y_coordinates(first_value)
-            x = compilation_asset.obtaining_the_necessary_information.definition_what_line_breaks.space(x_old)
-            y = compilation_asset.obtaining_the_necessary_information.definition_what_line_breaks.down(y_old)
-
-            directory_asset_old = importing_asset_for_engine.getting_asset_by_index(second_value)
-            directory_asset = directory_asset_old['directory'].strip('\n')
-            print(directory_asset)
-
-            with open(directory_asset , "r") as file:
-                file_asset = file.read().strip('\n')
-
-            asset = y + x
-            asset_new = asset + file_asset
-
-            working_with_the_clipboard.copy(text=asset_new)
-            draw_asset_by_index_new.getting_indexes()
+        # Получаем данные из compilation_asset (без изменений)
+        x_old = compilation_asset.obtaining_the_necessary_information.options(first_value)
+        y_old = compilation_asset.obtaining_the_necessary_information.determing_y_coordinates(first_value)
+        x = compilation_asset.obtaining_the_necessary_information.definition_what_line_breaks.space(x_old)
+        y = compilation_asset.obtaining_the_necessary_information.definition_what_line_breaks.down(y_old)
         
-        else:
-            asset_clipboard = working_with_the_clipboard.paste()
 
-            x_old = compilation_asset.obtaining_the_necessary_information.options(first_value)
-            y_old = compilation_asset.obtaining_the_necessary_information.determing_y_coordinates(first_value)
-            x = compilation_asset.obtaining_the_necessary_information.definition_what_line_breaks.space(x_old)
-            y = compilation_asset.obtaining_the_necessary_information.definition_what_line_breaks.down(y_old)
+        # Получаем информацию об ассете
+        asset_info = importing_asset_for_engine.getting_asset_by_index(second_value)
+        if not asset_info:
+            print("Ассет не найден!")
+            return
 
-            directory_asset_old = importing_asset_for_engine.getting_asset_by_index(second_value)
-            directory_asset = directory_asset_old['directory']
+        # Очищаем путь от \n и проверяем существование файла
+        asset_path = Path(asset_info['directory'].strip())
+        if not asset_path.exists():
+            print(f"Файл ассета не найден: {asset_path}")
+            return
 
-            with open(directory_asset , "r") as file:
-                file_asset = file.read().strip("\n")
+        # Читаем содержимое файла ассета
+        with open(asset_path, "r") as file:
+            text_file_asset = file.read().strip('\n')
 
-            asset = asset_clipboard + y + x + file_asset
-
-            working_with_the_clipboard.copy(asset)
+        print(f"asset_path = {asset_path}")
+        
+        result = ""
+        for char in text_file_asset:
+            if char != "\n":
+                result += char
             
+        file_asset = result
+        print(file_asset)
+        
+        # Формируем новый ассет
+        if index == 0:
+            print(f"y = {y}")
+            
+            print(f"x = {x}")
+            print(f"file_asset = {file_asset}")
+            new_asset = y + x + file_asset
+        else:
+            clipboard_content = working_with_the_clipboard.paste()
+            new_asset = clipboard_content + y + x + file_asset
 
-    except AttributeError as e:
-        print(f"Ошибка доступа к атрибуту: {e}")
+        # Копируем в буфер обмена
+        working_with_the_clipboard.copy(new_asset)
+        
     except Exception as e:
-        print(f"Другая ошибка: {e}")
+        print(f"Ошибка в draw_asset: {e}")
 
-# Инициализация системы
-system = platform.system()
-
-if system == "Linux":
-    with open("/temp/directory_to_engine", "r") as file:
-        directory_to_engine = file.read()
-    
-    sys.path.append(directory_to_engine + "Manager_assets/Importing_asset/")
-    import importing_asset_for_engine
-
-elif system == "Windows":
-    with open("C:/windows/directory_to_engine", "r") as file:
-        directory_to_engine = file.read()
-    
-    import draw_asset_by_index_new
-    draw_asset_by_index_new.getting_indexes()
-
-    sys.path.append(directory_to_engine + "Manager_assets/Importing_asset/")
-    import importing_asset_for_engine
-
+# Инициализация при импорте
+initialize()

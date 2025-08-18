@@ -41,5 +41,7 @@ def getting_indexes():
                   second_value=index_of_an_existing_asset, 
                   index=index)
 
-if __name__ == "__main__":
-    getting_indexes()
+#if __name__ == "__main__":
+    #getting_indexes()
+
+def t

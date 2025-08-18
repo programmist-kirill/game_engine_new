@@ -1,53 +1,87 @@
 import os
 import platform
 import sys
+from pathlib import Path
 
 def getting_indexes():
+    # Получение пути к движку
     system = platform.system()
-    if system == "Linux":
-        with open("/temp/directory_to_engine" , "r") as file:
-            directory_to_engine = file.read().strip("\n")
-    elif system == "Windows":
-        with open("C:/windows/directory_to_engine" , "r") as file:
-            directory_to_engine = file.read().strip("\n")
+    cache_file = "/temp/directory_to_engine" if system == "Linux" else "C:/windows/directory_to_engine"
+    
+    try:
+        with open(cache_file, "r") as file:
+            directory_to_engine = Path(file.read().strip())
+    except FileNotFoundError:
+        print(f"Ошибка: файл {cache_file} не найден!")
+        return
 
-    sys.path.append(directory_to_engine + "Manager_assets/Importing_asset/")
-    import importing_asset_for_engine
+    # Настройка путей импорта
+    sys.path.append(str(directory_to_engine / "Manager_assets" / "Importing_asset"))
+    
+    try:
+        import importing_asset_for_engine
+        from my_module_start import write, draw_asset
+    except ImportError as e:
+        print(f"Ошибка загрузки модулей: {e}")
+        return
+
+    # Инициализация кэша
+    cache_dir = directory_to_engine / "Cache"
+    cache_dir.mkdir(exist_ok=True)
+    cache_index_path = cache_dir / "index_draw_asset"
 
     index = 0
-    work = True
-
-    while work == True:
-        if not os.path.exists(directory_to_engine + "Cache/index_draw_asset"):
-            if index == 0:
-                with open(directory_to_engine + "Cache/index_draw_asset" , "w") as fp:
-                    fp.write("0")
-                print("index == 0")
-            else:
-                print("Error draw_asset_by_index_new.py")
-        else:
-            print("Not saved file")
-
-        index_of_the_element_in_the_table = input("Введите индекс из таблицы , там где нужно использовать ассет . Или введите exit чтобы сохранить ассет - ")
-        if index_of_the_element_in_the_table.lower() == "exit":
-            from my_module_start import write
-            write()
-
-            work = False
-            break
-
-        index_of_an_existing_asset = input("Введите индекс ассета который вы хотите использовать. Введите L чтобы вывести весь список ассетов - ")
-        if index_of_an_existing_asset.lower() == "l":
-            importing_asset_for_engine.print_full_asset_list()
+    while True:
+        try:
+            # Обработка ввода пользователя
+            user_input = input("Введите индекс из таблицы (или exit для сохранения): ").strip()
             
-            index_of_an_existing_asset = input("\n\n\nВведите индекс ассета который вы хотите использовать. Введите L чтобы вывести весь список ассетов - ")
-        
-        from my_module_start import draw_asset
+            if user_input.lower() == "exit":
+                write()
+                break
 
-        index_of_the_element_in_the_table = int(index_of_the_element_in_the_table)
-        index_of_an_existing_asset = int(index_of_an_existing_asset)
+            index_of_the_element_in_the_table = int(user_input)
 
-        draw_asset(first_value=index_of_the_element_in_the_table,
-                   second_value=index_of_an_existing_asset,
-                   index=index)
-        index += 1
+            # Выбор ассета
+            while True:
+                asset_input = input("Введите индекс ассета (L для списка): ").strip().lower()
+                
+                if asset_input == "l":
+                    importing_asset_for_engine.print_full_asset_list()
+                    continue
+                    
+                try:
+                    index_of_an_existing_asset = int(asset_input)
+                    break
+                except ValueError:
+                    print("Ошибка: введите число или 'L'")
+
+            # Обработка ассета
+            asset_info = importing_asset_for_engine.getting_asset_by_index(index_of_an_existing_asset)
+            if not asset_info:
+                print(f"Ассет с индексом {index_of_an_existing_asset} не найден")
+                continue
+                
+            # Очистка пути от лишних символов
+            asset_path = Path(asset_info['directory'].strip())
+            if not asset_path.exists():
+                print(f"Файл ассета не найден: {asset_path}")
+                continue
+
+            draw_asset(
+                first_value=index_of_the_element_in_the_table,
+                second_value=index_of_an_existing_asset,
+                index=index
+            )
+            
+            index += 1
+            cache_index_path.write_text(str(index))
+            
+
+        except ValueError:
+            print("Ошибка: введите число или 'exit'")
+        except Exception as e:
+            print(f"Ошибка при обработке: {e}")
+
+if __name__ == "__main__":
+    getting_indexes()
