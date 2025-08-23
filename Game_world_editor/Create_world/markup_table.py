@@ -1,5 +1,5 @@
 def print_hundred_table():
-    table = [[i + j * 10 for i in range(1, 11)] for j in range(25)]
+    table = [[i + j * 10 for i in range(1, 35)] for j in range(10)]
     
     # Печатаем саму таблицу
     for row in table:

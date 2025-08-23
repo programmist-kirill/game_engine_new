@@ -1,3 +1,0 @@
-print(f"x_old: {x_old}, y_old: {y_old}")
-        print(f"x: '{x}', y: '{y}'")
-        print(f"file_asset: '{file_asset}'")

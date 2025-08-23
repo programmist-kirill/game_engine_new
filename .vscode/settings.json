@@ -1,8 +1,8 @@
 {
     "python.REPL.enableREPLSmartSend": false,
     "python.analysis.extraPaths": [
-        "./Manager_assets/Importing_asset",
-        "./Manager_assets",
-        "./Manager_assets/Create_assets"
+        "./Importing_asset",
+        "./Game_world_editor/Create_world",
+        "./Game_world_editor/"
     ]
 }
