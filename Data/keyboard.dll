@@ -1,0 +1,11 @@
+import keyboard
+import sys
+
+sys.path.append("/home/kirill/game_engine_new/Data/Player/")
+import Moving_player
+
+key='d'
+while True:
+    if keyboard.is_pressed(key):
+        Moving_player.right()
+        break

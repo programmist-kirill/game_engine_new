@@ -3,6 +3,9 @@
     "python.analysis.extraPaths": [
         "./Importing_asset",
         "./Game_world_editor/Create_world",
-        "./Game_world_editor/"
+        "./Game_world_editor/",
+        "./Data/Player",
+        "./Data/Intelect",
+        "./Game_world_editor/Core"
     ]
 }
