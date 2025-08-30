@@ -9,16 +9,18 @@ def copy(text):
         print(f"Пытаемся скопировать: {debug_text}")
         
         # Используем subprocess вместо os.system
-        process = subprocess.Popen(['wl-copy'], stdin=subprocess.PIPE)
-        process.communicate(input=text.encode('utf-8'))
+        with open("/home/kirill/game_engine_new/Cache/clipboard.tmp" , "w") as fp:
+            fp.write(text)
         
     except Exception as error:
         print(f"Ошибка копирования в буфер: {error}")
 
 def paste():
     try:
-        result = subprocess.run(['wl-paste'], capture_output=True, text=True)
-        return result.stdout.strip()
+        with open("/home/kirill/game_engine_new/Cache/clipboard.tmp" , "r") as file:
+            clipboard_cache = file.read()
+        
+        return clipboard_cache
     except Exception as error:
         print(f"Ошибка чтения из буфера: {error}")
         return ""

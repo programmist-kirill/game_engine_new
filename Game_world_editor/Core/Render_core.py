@@ -1,6 +1,59 @@
 import os
 from termcolor import colored
+
 import working_with_the_clipboard
+
+class Manager_temporary_file:
+    def Writing_temporary_files(index_work , index_list , work):
+        index_work = str(index_work)
+        index_list = str(index_list)
+
+        DIRECTORY_INDEX_WORK_CACHE = "/home/kirill/game_engine_new/Cache/index_work.render"
+        DIRECTORY_INDEX_LIST_CACHE = "/home/kirill/game_engine_new/Cache/index_list.render"
+        DIRECTORY_WORK_CACHE = "/home/kirill/game_engine_new/Cache/work.render"
+
+        with open(DIRECTORY_INDEX_WORK_CACHE , "w") as fp:
+            fp.write(index_work)
+        with open(DIRECTORY_INDEX_LIST_CACHE , "w") as fp:
+            fp.write(index_list)
+        with open(DIRECTORY_WORK_CACHE , "w") as fp:
+            fp.write(work)
+
+    def Reading_temporary_files():
+        DIRECTORY_INDEX_WORK_CACHE = "/home/kirill/game_engine_new/Cache/index_work.render"
+        DIRECTORY_INDEX_LIST_CACHE = "/home/kirill/game_engine_new/Cache/index_list.render"
+        DIRECTORY_WORK_CACHE = "/home/kirill/game_engine_new/Cache/work.render"
+
+        if os.path.exists(DIRECTORY_INDEX_WORK_CACHE):
+            print(f"{DIRECTORY_INDEX_WORK_CACHE} is found")
+        else:
+            with open(DIRECTORY_INDEX_WORK_CACHE , "w") as fp:
+                fp.write("0")
+        
+        if os.path.exists(DIRECTORY_INDEX_LIST_CACHE):
+            print(f"{DIRECTORY_INDEX_LIST_CACHE} is found")
+        else:
+            with open(DIRECTORY_INDEX_LIST_CACHE , "w") as fp:
+                fp.write("0")
+        
+        if os.path.exists(DIRECTORY_WORK_CACHE):
+            print(f"{DIRECTORY_WORK_CACHE} is found")
+        else:
+            with open(DIRECTORY_WORK_CACHE , "w") as fp:
+                fp.write("True")
+
+        with open(DIRECTORY_INDEX_WORK_CACHE , "r") as file:
+            index_work = file.read().strip()
+        with open(DIRECTORY_INDEX_LIST_CACHE , "r") as file:
+            index_list = file.read().strip()
+        with open(DIRECTORY_WORK_CACHE , "r") as file:
+            work = file.read().strip()
+        
+        index_work = int(index_work)
+        index_list = int(index_list)
+
+        return index_work , index_list , work
+
 
 def get_assets_without_extension(filename='/home/kirill/game_engine_new/Data/Render.conf'):
     """
@@ -111,54 +164,84 @@ class Create_world:
             print("\n\n\n\n\n\n\n\n" + asset_new + "\n\n\n\n\n\n\n\n")
             print(f"index_list = {index_list}")
             print(f"index_work = {index_work}")
-    
-    def Change_scene(asset):
+        
+        os.system("wl-copy --clear")
 
+    def Change_scene():
+        global new_string
 
-        with open("/home/kirill/game_engine_new/Data/Render.conf" , "r") as file:
-            file_render_config = file.readlines()
+        index_work, index_list, work = Manager_temporary_file.Reading_temporary_files()
+        string_new = ""  # Инициализируем переменную заранее
+        
+        while work == "True":
+            if index_work == 0:
+                with open("/home/kirill/game_engine_new/Data/Player.asset", "r") as file:
+                    asset = file.read().strip()
+            elif index_work > 0:
+                # ДОБАВЬТЕ ПРОВЕРКУ СУЩЕСТВОВАНИЯ ФАЙЛА
+                cache_player_path = "/home/kirill/game_engine_new/Cache/Player.asset"
+                if os.path.exists(cache_player_path):
+                    with open(cache_player_path, "r") as file:
+                        asset = file.read()
+                else:
+                    # Если файл не существует, используйте оригинальный asset
+                    with open("/home/kirill/game_engine_new/Data/Player.asset", "r") as file:
+                        asset = file.read().strip()
 
-        index_work = 0
-        index_list = 0
-        work = True
-        asset_new = ""
-
-        while work:
+            with open("/home/kirill/game_engine_new/Data/Render.conf", "r") as file:
+                file_render_config = file.readlines()
+            
             if index_list >= len(file_render_config):
+                print("index_list >= len(file_render_config)")
                 break
 
             string = file_render_config[index_list].strip()
+            print(f"string = {string}")
 
-            if string != "":
-                # Проверяем, является ли строка "Player.asset"
-                if string == "Player.asset":
-                    print(colored(f"🎮 Обнаружен Player.asset! Asset: {asset}", "green", attrs=["bold"]))
-                
-                if string == "Player.asset" or string == "intelection":
-                    directory_asset = "/home/kirill/game_engine_new/Cache/" + asset + ".asset"
-
-                    if os.path.exists(directory_asset):
-                        with open(directory_asset, "r") as file:
-                            asset_content = file.read().strip()
-                        
-                        if index_work == 0:
-                            working_with_the_clipboard.copy(asset_content)
-                            asset_new = asset_content
-                        else:
-                            asset_clipboard = working_with_the_clipboard.paste()
-                            asset_new = asset_clipboard + "\n" + asset_content
-                            working_with_the_clipboard.copy(asset_new)
-                        
-                        index_list += 1
-                        index_work += 1
-                        continue
-                    else:
-                        index_list += 1
-                        continue
-                else:
-                    # Пропускаем другие asset'ы
-                    index_list += 1
-                    continue
+            if string == "Player.asset":
+                string = asset
             else:
-                work = False
-                break
+                directory_to_asset = "/home/kirill/game_engine_new/Data/" + string
+                with open(directory_to_asset, "r") as file:
+                    string = file.read().strip()
+
+            if index_work == 0:
+                working_with_the_clipboard.copy(string)
+                string_new = string  # Сохраняем значение
+            else:
+                cache_clipboard = working_with_the_clipboard.paste()
+                string_new = cache_clipboard + "\n" + string
+                working_with_the_clipboard.copy(string_new)
+            
+            index_list += 1
+            index_work += 1
+            
+            Manager_temporary_file.Writing_temporary_files(index_work=index_work, index_list=index_list, work=work)
+
+            #? os.system("python /home/kirill/game_engine_new/delete_cache.py")
+
+            continue
+
+        with open("/home/kirill/game_engine_new/Cache/scene" , "w") as fp:
+            fp.write(string_new)
+
+        os.system("sudo /home/kirill/venv/bin/python3.13 /home/kirill/game_engine_new/Data/keyboard.dll")
+
+        
+    
+    def Update_scene():
+        """Обновляет и перерисовывает сцену"""
+        global new_string
+        
+        index_work, index_list, work = Manager_temporary_file.Reading_temporary_files()
+        string_new = ""
+        
+        # Сбрасываем индекс для перерисовки всей сцены
+        index_list = 0
+        index_work = 0
+        work = "True"
+        
+        Manager_temporary_file.Writing_temporary_files(index_work, index_list, work)
+        
+        # Перерисовываем сцену
+        Create_world.Change_scene()

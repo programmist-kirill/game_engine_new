@@ -1,0 +1,1 @@
+gnome-terminal --title="Game Render" -- python3 /home/kirill/game_engine_new/Game_world_editor/Core/Render_output.py

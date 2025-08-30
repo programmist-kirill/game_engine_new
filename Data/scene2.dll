@@ -1,0 +1,63 @@
+def Render_immutable_assets(string , index_work):
+    if index_work == 0:
+        with open("/home/kirill/game_engine_new/Cache/clipboard.tmp" , "w") as fp:
+            fp.write(string)
+    else:
+        with open("/home/kirill/game_engine_new/Cache/clipboard.tmp" , "r") as file:
+            clipboard = file.read()
+        
+        string_new = clipboard + "\n" + string
+
+        return string_new
+
+def Rendering_variable_assets(string , index_work):
+    moving = " "
+
+    if index_work == 0:
+        with open("/home/kirill/game_engine_new/Data/Player.asset" , "r") as file:
+            player_asset = file.read().strip()
+
+    else:
+        with open("/home/kirill/game_engine_new/Cache/Player.asset" , "r") as file:
+            player_asset = file.read()
+    
+    player = moving + player_asset
+
+    with open("/home/kirill/game_engine_new/Cache/Player.asset" , "w") as fp:
+        fp.write(player)
+    
+    return player
+
+def scene_without_obstacles():
+    space = "               "
+
+    with open("/home/kirill/game_engine_new/Cache/Player.asset" , "r") as file:
+        player_asset = file.read()
+    
+    player = space + player_asset
+
+    with open("/home/kirill/game_engine_new/Data/sky.asset" , "r") as file:
+        sky = file.read().strip()
+    
+    scene = sky + "\n" + player + "\n" + sky
+
+    return scene
+
+def obstacle_scene(space):
+    obstacle = "⬜"
+    space_obstacle = "                "
+    result_obstacle = space_obstacle + obstacle
+
+    with open("/home/kirill/game_engine_new/Data/Player.asset" , "r") as file:
+        player_asset = file.read().srip()
+    
+    with open("/home/kirill/game_engine_new/Data/sky.asset" , "r") as file:
+        sky_asset = file.read().strip()
+    
+    if space in None:
+        scene = sky_asset + "\n" + player_asset + result_obstacle + "\n" + sky_asset
+    else:
+        scene = sky_asset + "\n" + space + player_asset + result_obstacle + "\n" + sky_asset
+
+    return scene
+

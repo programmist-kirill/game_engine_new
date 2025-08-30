@@ -1,0 +1,103 @@
+import os.path
+import sys
+from termcolor import colored
+
+sys.path.append("/home/kirill/game_engine_new/Game_world_editor/Core/")
+import Render_core
+
+def math_probel(space):
+    if space < 0:
+        return ""
+    elif space > 47:
+        print("\n\n\n\n-----------------------------------------------------------------------------")
+        print(colored("exceeding the playing field by 47 characters (moving_player.py)", "red"))
+        print("-----------------------------------------------------------------------------")
+        input("\n\nДля продолжения нажмите Enter ")
+        sys.exit()
+    else:
+        return " " * space
+
+def Writing_temporary_files(index_work, count_word, space):
+    with open("/home/kirill/game_engine_new/Cache/index_work.cache", "w") as fp:
+        fp.write(str(index_work))
+    with open("/home/kirill/game_engine_new/Cache/count_word.cache", "w") as fp:
+        fp.write(str(count_word))
+    with open("/home/kirill/game_engine_new/Cache/space.cache", "w") as fp:
+        fp.write(str(space))
+
+def Reading_temporary_files():
+    cache_files = [
+        "/home/kirill/game_engine_new/Cache/index_work.cache",
+        "/home/kirill/game_engine_new/Cache/count_word.cache", 
+        "/home/kirill/game_engine_new/Cache/space.cache"
+    ]
+    
+    values = []
+    for file_path in cache_files:
+        if not os.path.exists(file_path):
+            with open(file_path, "w") as fp:
+                fp.write("0")
+        with open(file_path, "r") as file:
+            values.append(int(file.read().strip()))
+    
+    return values[0], values[1], values[2]
+
+def right():
+    index_work, count_word, space = Reading_temporary_files()
+    DIRECTORY_CACHE_PLAYER = "/home/kirill/game_engine_new/Cache/Player.asset"
+    
+    with open("/home/kirill/game_engine_new/Data/Player.asset", "r") as file:
+        player_asset = file.read().strip()
+    
+    space += 1
+    
+    count_space = math_probel(space)
+    asset_for_write = count_space + player_asset
+        
+    print(f"\nspace = {space}\ncount_word = {len(player_asset)}\nasset_for_write = '{asset_for_write}'")
+
+    with open(DIRECTORY_CACHE_PLAYER, "w") as fp:
+        fp.write(asset_for_write)
+
+    Writing_temporary_files(index_work + 1, len(player_asset), space)
+    
+    # Вместо Change_scene вызываем обновление
+    Render_core.Create_world.Update_scene()
+
+def left():
+    index_work, count_word, space = Reading_temporary_files()
+    DIRECTORY_CACHE_PLAYER = "/home/kirill/game_engine_new/Cache/Player.asset"
+    
+    with open("/home/kirill/game_engine_new/Data/Player.asset", "r") as file:
+        player_asset = file.read().strip()
+    
+    space = max(0, space - 1)
+    
+    count_space = math_probel(space)
+    asset_for_write = count_space + player_asset
+        
+    print(f"\nspace = {space}\ncount_word = {len(player_asset)}\nasset_for_write = '{asset_for_write}'")
+
+    with open(DIRECTORY_CACHE_PLAYER, "w") as fp:
+        fp.write(asset_for_write)
+
+    Writing_temporary_files(index_work + 1, len(player_asset), space)
+    
+    # Вместо Change_scene вызываем обновление
+    Render_core.Create_world.Update_scene()
+
+def main():
+    DIRECTORY_CACHE_KEYBOARD_WORD = "/home/kirill/game_engine_new/Cache/keyboard.word"
+
+    with open(DIRECTORY_CACHE_KEYBOARD_WORD, "r") as file:
+        word_keyboard = file.read().strip()
+    
+    if word_keyboard == "d":
+        right()
+    elif word_keyboard == "a":
+        left()
+    elif word_keyboard == "w":
+        # Добавьте логику для движения вверх если нужно
+        print("Move up")
+
+main()
