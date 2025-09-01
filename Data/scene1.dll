@@ -1,0 +1,9 @@
+import os
+
+def left():
+    if os.path.exists("/home/kirill/game_engine_new/Cache/Player.asset"):
+        with open("/home/kirill/game_engine_new/Cache/Player.asset" , "r") as file:
+            player_asset = file.read()
+        
+    else:
+        with open("/home/kirill/game_engine_new/Data/Player.conf")

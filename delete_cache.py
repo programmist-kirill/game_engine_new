@@ -13,6 +13,14 @@ directory_work = "/home/kirill/game_engine_new/Cache/work.render"
 directory_keyboard_work = "/home/kirill/game_engine_new/Cache/keyboard.word"
 directory_index_work_render_output = "/home/kirill/game_engine_new/Cache/index_work_render_output"
 directory_scene = "/home/kirill/game_engine_new/Cache/scene"
+directory_index_work_cache_scene2 = "/home/kirill/game_engine_new/Cache/index_work_cache_scene2"
+directory_work_scene2 = "/home/kirill/game_engine_new/Cache/work_scene2"
+directory_cache_space_scene2 = "/home/kirill/game_engine_new/Cache/space_scene2"
+directory_cache_minus_space_scene2 = "/home/kirill/game_engine_new/Cache/minus_space_scene2"
+directory_cache_what_scene_to_render = "/home/kirill/game_engine_new/Cache/what_scene_to_render"
+directory_cache_should_the_obstacle_be_rendered = "/home/kirill/game_engine_new/Cache/should_the_obstacle_be_rendered"
+directory_cache_action = "/home/kirill/game_engine_new/Cache/action"
+
 
 if os.path.exists(directory_count_word_cache):
     print(colored(f"    => Delete file {directory_count_word_cache}","yellow"))
@@ -61,3 +69,31 @@ if os.path.exists(directory_index_work_render_output):
 if os.path.exists(directory_scene):
     print(colored(f"    => Delete file {directory_scene}" , "yellow"))
     os.remove(directory_scene)
+
+if os.path.exists(directory_index_work_cache_scene2):
+    print(colored(f"    => Delete file {directory_index_work_cache_scene2}" , "yellow"))
+    os.remove(directory_index_work_cache_scene2)
+
+if os.path.exists(directory_work_scene2):
+    print(colored(f"    => Delete file {directory_work_scene2}" , "yellow"))
+    os.remove(directory_work_scene2)\
+    
+if os.path.exists(directory_index_work_cache_scene2):
+    print(colored(f"    => Delete file {directory_index_work_cache_scene2}" , "yellow"))
+    os.removef(directory_index_work_cache_scene2)
+
+if os.path.exists(directory_cache_minus_space_scene2):
+    print(colored(f"    => Delete file {directory_cache_minus_space_scene2}" , "yellow"))
+    os.remove(directory_cache_minus_space_scene2)
+
+if os.path.exists(directory_cache_what_scene_to_render):
+    print(colored(f"    => Delete file {directory_cache_what_scene_to_render}" , "yellow"))
+    os.remove(directory_cache_what_scene_to_render)
+
+if os.path.exists(directory_cache_should_the_obstacle_be_rendered):
+    print(colored(f"    => Delete file {directory_cache_should_the_obstacle_be_rendered}" , "yellow"))
+    os.remove(directory_cache_should_the_obstacle_be_rendered)
+
+if os.path.exists(directory_cache_action):
+    print(colored(f"    => Delete file {directory_cache_action}" , "yellow"))
+    os.remove(directory_cache_action)

@@ -1,0 +1,1 @@
+gnome-terminal --title="keyboard.dll" -- python3 /home/kirill/game_engine_new/Data/keyboard.dll

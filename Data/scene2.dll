@@ -1,36 +1,8 @@
-def Render_immutable_assets(string , index_work):
-    if index_work == 0:
-        with open("/home/kirill/game_engine_new/Cache/clipboard.tmp" , "w") as fp:
-            fp.write(string)
-    else:
-        with open("/home/kirill/game_engine_new/Cache/clipboard.tmp" , "r") as file:
-            clipboard = file.read()
-        
-        string_new = clipboard + "\n" + string
-
-        return string_new
-
-def Rendering_variable_assets(string , index_work):
-    moving = " "
-
-    if index_work == 0:
-        with open("/home/kirill/game_engine_new/Data/Player.asset" , "r") as file:
-            player_asset = file.read().strip()
-
-    else:
-        with open("/home/kirill/game_engine_new/Cache/Player.asset" , "r") as file:
-            player_asset = file.read()
-    
-    player = moving + player_asset
-
-    with open("/home/kirill/game_engine_new/Cache/Player.asset" , "w") as fp:
-        fp.write(player)
-    
-    return player
+import os
+import re
 
 def scene_without_obstacles():
-    space = "               "
-
+    space = "                 " 
     with open("/home/kirill/game_engine_new/Cache/Player.asset" , "r") as file:
         player_asset = file.read()
     
@@ -41,23 +13,125 @@ def scene_without_obstacles():
     
     scene = sky + "\n" + player + "\n" + sky
 
-    return scene
+    with open("/home/kirill/game_engine_new/Cache/scene" , "w") as fp:
+        fp.write(scene)
 
 def obstacle_scene(space):
+    
+    DIRECTORY_INDEX_WORK_CACHE_SCENE2 = "/home/kirill/game_engine_new/Cache/index_work_cache_scene2"
+    if os.path.exists(DIRECTORY_INDEX_WORK_CACHE_SCENE2):
+        index_work = 1
+    else:
+        with open(DIRECTORY_INDEX_WORK_CACHE_SCENE2 , "w") as fp:
+            fp.write("0")
+        
+        index_work = 0
+
     obstacle = "⬜"
     space_obstacle = "                "
     result_obstacle = space_obstacle + obstacle
 
     with open("/home/kirill/game_engine_new/Data/Player.asset" , "r") as file:
-        player_asset = file.read().srip()
+        player_asset = file.read().strip()
     
     with open("/home/kirill/game_engine_new/Data/sky.asset" , "r") as file:
         sky_asset = file.read().strip()
     
-    if space in None:
+    if index_work == 0:
         scene = sky_asset + "\n" + player_asset + result_obstacle + "\n" + sky_asset
     else:
         scene = sky_asset + "\n" + space + player_asset + result_obstacle + "\n" + sky_asset
 
-    return scene
+    with open("/home/kirill/game_engine_new/Cache/scene" , "w") as fp:
+        fp.write(scene)
 
+class change_the_position_of_the_main_character_in_the_scene:
+    
+    def left():
+        # Чтение ассета игрока (содержит пробелы + символ)
+        if os.path.exists("/home/kirill/game_engine_new/Cache/Player.asset"):
+            with open("/home/kirill/game_engine_new/Cache/Player.asset", "r") as file:
+                player_asset = file.read()
+        
+        else:
+            with open("/home/kirill/game_engine_new/Data/Player.asset" , "r") as file:
+                player_asset = file.read()
+
+        # Убираем один пробел слева (если есть)
+        if player_asset.startswith(" "):
+            player_asset = player_asset[1:]
+        # Если пробелов нет, остаемся на месте (не уходим в отрицательную позицию)
+        
+        # Чтение неба
+        with open("/home/kirill/game_engine_new/Data/sky.asset", "r") as file:
+            sky = file.read().strip()
+        
+        # Формирование сцены
+        if not os.path.exists("/home/kirill/game_engine_new/Cache/should_the_obstacle_be_rendered"):
+            asset = sky + "\n" + player_asset + "\n" + sky
+        else:
+            obstacle = "⬜"
+            space_obstacle = "                "
+            result_obstacle = space_obstacle + obstacle
+            asset = sky + "\n" + player_asset + result_obstacle + "\n" + sky
+        
+        # Сохранение обновленного ассета игрока
+        with open("/home/kirill/game_engine_new/Data/Player.asset", "w") as fp:
+            fp.write(player_asset)
+        
+        # Сохранение сцены
+        with open("/home/kirill/game_engine_new/Cache/scene", "w") as fp:
+            fp.write(asset)
+        print(player_asset)
+
+    def right():
+        space_obstacle = "                "
+        # Чтение ассета игрока
+        if os.path.exists("/home/kirill/game_engine_new/Cache/Player.asset"):
+            with open("/home/kirill/game_engine_new/Cache/Player.asset", "r") as file:
+                player_asset = file.read()
+        
+        else:
+            with open("/home/kirill/game_engine_new/Data/Player.asset" , "r") as file:
+                player_asset = file.read()
+
+        # Добавляем пробел слева для смещения вправо
+        # Но только если не превышаем максимальную позицию (например, 20 пробелов)
+        if player_asset.count(" ") < 20:
+            player_asset = " " + player_asset
+        
+        print(player_asset)
+        
+        # Чтение неба
+        with open("/home/kirill/game_engine_new/Data/sky.asset", "r") as file:
+            sky = file.read().strip()
+        
+        # Формирование сцены
+        if not os.path.exists("/home/kirill/game_engine_new/Cache/should_the_obstacle_be_rendered"):
+            asset = sky + "\n" + player_asset + "\n" + sky
+        else:
+            obstacle = "⬜"
+            space_obstacle = re.sub('^ ', '', space_obstacle, count=1)
+
+            result_obstacle = space_obstacle + obstacle
+            asset = sky + "\n" + player_asset + result_obstacle + "\n" + sky
+        
+        # Сохранение обновленного ассета игрока
+        with open("/home/kirill/game_engine_new/Data/Player.asset", "w") as fp:
+            fp.write(player_asset)
+        
+        # Сохранение сцены
+        with open("/home/kirill/game_engine_new/Cache/scene", "w") as fp:
+            fp.write(asset)
+
+    def main():
+        DIRECTORY_CACHE_ACTION = "/home/kirill/game_engine_new/Cache/action"
+        with open(DIRECTORY_CACHE_ACTION , "r") as file:
+            action = file.read().strip()
+
+        if action == "left":
+            change_the_position_of_the_main_character_in_the_scene.left()
+        elif action == "right":
+            change_the_position_of_the_main_character_in_the_scene.right()
+    
+change_the_position_of_the_main_character_in_the_scene.main()

@@ -42,62 +42,108 @@ def Reading_temporary_files():
     
     return values[0], values[1], values[2]
 
-def right():
-    index_work, count_word, space = Reading_temporary_files()
-    DIRECTORY_CACHE_PLAYER = "/home/kirill/game_engine_new/Cache/Player.asset"
-    
-    with open("/home/kirill/game_engine_new/Data/Player.asset", "r") as file:
-        player_asset = file.read().strip()
-    
-    space += 1
-    
-    count_space = math_probel(space)
-    asset_for_write = count_space + player_asset
+class scene1:
+    def right():
+        index_work, count_word, space = Reading_temporary_files()
+        DIRECTORY_CACHE_PLAYER = "/home/kirill/game_engine_new/Cache/Player.asset"
         
-    print(f"\nspace = {space}\ncount_word = {len(player_asset)}\nasset_for_write = '{asset_for_write}'")
-
-    with open(DIRECTORY_CACHE_PLAYER, "w") as fp:
-        fp.write(asset_for_write)
-
-    Writing_temporary_files(index_work + 1, len(player_asset), space)
-    
-    # Вместо Change_scene вызываем обновление
-    Render_core.Create_world.Update_scene()
-
-def left():
-    index_work, count_word, space = Reading_temporary_files()
-    DIRECTORY_CACHE_PLAYER = "/home/kirill/game_engine_new/Cache/Player.asset"
-    
-    with open("/home/kirill/game_engine_new/Data/Player.asset", "r") as file:
-        player_asset = file.read().strip()
-    
-    space = max(0, space - 1)
-    
-    count_space = math_probel(space)
-    asset_for_write = count_space + player_asset
+        with open("/home/kirill/game_engine_new/Data/Player.asset", "r") as file:
+            player_asset = file.read().strip()
         
-    print(f"\nspace = {space}\ncount_word = {len(player_asset)}\nasset_for_write = '{asset_for_write}'")
+        space += 1
+        
+        count_space = math_probel(space)
+        asset_for_write = count_space + player_asset
 
-    with open(DIRECTORY_CACHE_PLAYER, "w") as fp:
-        fp.write(asset_for_write)
+        print(f"\nspace = {space}\ncount_word = {len(player_asset)}\nasset_for_write = '{asset_for_write}'")
 
-    Writing_temporary_files(index_work + 1, len(player_asset), space)
-    
-    # Вместо Change_scene вызываем обновление
-    Render_core.Create_world.Update_scene()
+        with open(DIRECTORY_CACHE_PLAYER, "w") as fp:
+            fp.write(asset_for_write)
+
+        Writing_temporary_files(index_work + 1, len(player_asset), space)
+        
+        # Вместо Change_scene вызываем обновление
+        Render_core.Create_world.Update_scene()
+
+    def left():
+        index_work, count_word, space = Reading_temporary_files()
+        DIRECTORY_CACHE_PLAYER = "/home/kirill/game_engine_new/Cache/Player.asset"
+        
+        with open("/home/kirill/game_engine_new/Data/Player.asset", "r") as file:
+            player_asset = file.read().strip()
+        
+        space = max(0, space - 1)
+        
+        count_space = math_probel(space)
+        asset_for_write = count_space + player_asset
+            
+        print(f"\nspace = {space}\ncount_word = {len(player_asset)}\nasset_for_write = '{asset_for_write}'")
+
+        with open(DIRECTORY_CACHE_PLAYER, "w") as fp:
+            fp.write(asset_for_write)
+
+        Writing_temporary_files(index_work + 1, len(player_asset), space)
+        
+        # Вместо Change_scene вызываем обновление
+        Render_core.Create_world.Update_scene()
+
+class scene2:
+    def right():
+        space = " "
+
+        DIRECTORY_CACHE_SPACE_SCENE2 = "/home/kirill/game_engine_new/Cache/space_scene2"
+        if os.path.exists(DIRECTORY_CACHE_SPACE_SCENE2):
+            with open(DIRECTORY_CACHE_SPACE_SCENE2 , "r") as file:
+                space_scene2 = file.read()
+            
+            space_new = space + space_scene2
+
+        else:
+            space_new = space
+        
+        with open(DIRECTORY_CACHE_SPACE_SCENE2 , "w") as fp:
+            fp.write(space_new)
+
+    def left():
+        DIRECTORY_CACHE_MINUS_SPACE_SCENE2 = "/home/kirill/game_engine_new/Cache/minus_space_scene2"
+        DIRECTORY_CACHE_SPACE_SCENE2 = "/home/kirill/game_engine_new/Cache/space_scene2"
+        if os.path.exists(DIRECTORY_CACHE_SPACE_SCENE2):
+            with open(DIRECTORY_CACHE_SPACE_SCENE2 , "r") as file:
+                space_count_file = file.read()
+            
+            for word in space_count_file:
+                if word == " ":
+                    space_count_file = int(space_count_file)
+                    space_count = space_count_file - 1
+            
+            with open(DIRECTORY_CACHE_MINUS_SPACE_SCENE2 , "w") as fp:
+                fp.write(space_count)
+        
+        else:
+            index = 0
 
 def main():
+    DIRECTORY_WORK_SCENE2 = "/home/kirill/game_engine_new/Cache/work_scene2"
     DIRECTORY_CACHE_KEYBOARD_WORD = "/home/kirill/game_engine_new/Cache/keyboard.word"
 
-    with open(DIRECTORY_CACHE_KEYBOARD_WORD, "r") as file:
-        word_keyboard = file.read().strip()
-    
-    if word_keyboard == "d":
-        right()
-    elif word_keyboard == "a":
-        left()
-    elif word_keyboard == "w":
-        # Добавьте логику для движения вверх если нужно
-        print("Move up")
+    if not os.path.exists(DIRECTORY_WORK_SCENE2):
+        with open(DIRECTORY_CACHE_KEYBOARD_WORD, "r") as file:
+            word_keyboard = file.read().strip()
+        
+        if word_keyboard == "d":
+            scene1.right()
+        elif word_keyboard == "a":
+            scene1.left()
+        elif word_keyboard == "w":
+            # Добавьте логику для движения вверх если нужно
+            print("Move up")
 
+    else:
+        with open(DIRECTORY_CACHE_KEYBOARD_WORD , "r") as file:
+            word_keyboard = file.read().strip()
+
+        if word_keyboard == "d":
+            scene2.right()
+        elif word_keyboard == "a":
+            scene2.left()
 main()
